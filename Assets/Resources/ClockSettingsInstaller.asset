@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0de070cda2e4a84469cb5c4bde227c37, type: 3}
   m_Name: ClockSettingsInstaller
   m_EditorClassIdentifier: 
-  _yandexSettings:
-    <Priority>k__BackingField: 0
-  _worldTimeSettings:
-    <Priority>k__BackingField: 2
-  _firebaseSettings:
-    <Priority>k__BackingField: 1
+  _apiSettings:
+    YandexSettings:
+      <Priority>k__BackingField: 0
+    WorldTimeSettings:
+      <Priority>k__BackingField: 2
+    FirebaseSettings:
+      <Priority>k__BackingField: 1
   _clockSettings:
     <TimeOnlineUpdate>k__BackingField: 3600000
