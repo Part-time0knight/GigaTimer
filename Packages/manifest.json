@@ -1,9 +1,14 @@
 {
   "dependencies": {
+    "com.google.external-dependency-manager": "file:../Assets/Resources/com.google.external-dependency-manager-1.2.177.tgz",
+    "com.google.firebase.app": "file:../Assets/Resources/com.google.firebase.app-12.2.0.tgz",
+    "com.google.firebase.auth": "file:../Assets/Resources/com.google.firebase.auth-12.2.0.tgz",
+    "com.google.firebase.database": "file:../Assets/Resources/com.google.firebase.database-12.2.0.tgz",
     "com.unity.collab-proxy": "2.4.4",
     "com.unity.feature.2d": "2.0.0",
     "com.unity.ide.rider": "3.0.28",
     "com.unity.ide.visualstudio": "2.0.22",
+    "com.unity.nuget.newtonsoft-json": "3.0.2",
     "com.unity.test-framework": "1.1.33",
     "com.unity.textmeshpro": "3.0.6",
     "com.unity.timeline": "1.7.6",

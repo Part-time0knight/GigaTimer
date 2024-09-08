@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "700782156419",
+    "firebase_url": "https://gigaclock-11a9b-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "gigaclock-11a9b",
+    "storage_bucket": "gigaclock-11a9b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:700782156419:android:4ad4c13509bc36a40a99b6",
+        "android_client_info": {
+          "package_name": "com.Parttimeknight.GigaTimer"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqy8vmVbhXrEFSaUYOBfzf0wlrkC9jErw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
