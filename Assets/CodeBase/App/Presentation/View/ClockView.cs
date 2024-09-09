@@ -14,6 +14,7 @@ namespace App.Presentation.View
         [field: SerializeField] private TMP_Text _clockText;
         [field: SerializeField] private Image _secondHandImage;
         [field: SerializeField] private Image _minuteHandImage;
+        [field: SerializeField] private Image _hourHandImage;
 
         [Inject]
         protected override void Construct(ClockViewModel viewModel)
@@ -29,6 +30,8 @@ namespace App.Presentation.View
             _secondHandImage.transform.DOLocalRotate(new(0f, 0f, dto.SecondHandAngle), duration: 0.6f);
             _minuteHandImage.transform.DOKill();
             _minuteHandImage.transform.DOLocalRotate(new(0f, 0f, dto.MinuteHandAngle), duration: 0.6f);
+            _hourHandImage.transform.DOKill();
+            _hourHandImage.transform.DOLocalRotate(new(0f, 0f, dto.HourHandAngle), duration: 0.6f);
         }
 
         private void OnDestroy()

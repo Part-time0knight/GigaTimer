@@ -158,7 +158,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 0}
+  m_BackGroundColor: {r: 0.2735849, g: 0.2735849, b: 0.2735849, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -262,6 +262,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6477555355217482258, guid: 4ef104c7f43514d4487cb891deb7f7aa, type: 3}
+      propertyPath: settings.Pause
+      value: 
+      objectReference: {fileID: 917175727299660763, guid: cc8e7e65f5e60d44398af77b14eb7f4b, type: 3}
     - target: {fileID: 7069197658718183598, guid: 4ef104c7f43514d4487cb891deb7f7aa, type: 3}
       propertyPath: m_Name
       value: SceneContext
@@ -325,6 +329,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7517882154245371358, guid: 56b36e2470a2c8948b40263eb48fe97e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8504945638013489761, guid: 56b36e2470a2c8948b40263eb48fe97e, type: 3}
+      propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
