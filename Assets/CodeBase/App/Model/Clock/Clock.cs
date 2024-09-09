@@ -27,14 +27,14 @@ namespace App.Model.Clock
         public Clock(TimeAPIService timeAPIService, PauseController pause, Settings settings) 
         {
             _timeService = timeAPIService;
-            _timer = new(interval: 1000);
+            _timer = new(interval: 1000d);
             _settings = settings;
             _timerUpdate = new(interval: _settings.TimeOnlineUpdate);
             _pauseController = pause;
 
         }
 
-        public async void Initialize()
+        public void Initialize()
         {
             _currentTime = DateTime.Now;
             _pauseController.InvokePause += UpdateAfterPause;
@@ -54,7 +54,7 @@ namespace App.Model.Clock
             _timerUpdate.Stop();
         }
 
-        public async void Tick()
+        public void Tick()
         {
             if (_needUpdate)
             {
