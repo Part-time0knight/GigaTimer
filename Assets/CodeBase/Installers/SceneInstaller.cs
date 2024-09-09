@@ -60,6 +60,11 @@ namespace Installers
                 .BindInterfacesAndSelfTo<ClockViewModel>()
                 .AsSingle()
                 .NonLazy();
+
+            Container
+                .BindInterfacesAndSelfTo<AlarmSetViewModel>()
+                .AsSingle()
+                .NonLazy();
         }
 
         private void InstallFactories()

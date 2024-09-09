@@ -14,8 +14,6 @@ namespace App.Presentation.ViewModel
         private readonly Clock _clock;
         private readonly ClockDto _dto;
 
-        private string _time;
-
         protected override Type Window => typeof(ClockView);
 
         public ClockViewModel(IWindowFsm windowFsm, Clock clock) : base(windowFsm)
@@ -34,6 +32,11 @@ namespace App.Presentation.ViewModel
             _windowFsm.OpenWindow(Window, inHistory: true);
         }
 
+        public void OpenAlarmWindow()
+        {
+            _windowFsm.OpenWindow(typeof(AlarmSetView), inHistory: true);
+        }
+
         protected override void HandleOpenedWindow(Type uiWindow)
         {
             base.HandleOpenedWindow(uiWindow);
@@ -49,17 +52,14 @@ namespace App.Presentation.ViewModel
 
         private void Update()
         {
-
-            _time = _clock.Time.ToLongTimeString();
             if (_clock.Time.Hour < 10)
-                _time = "0" + _clock.Time.ToLongTimeString();
+                _dto.ClockText = "0" + _clock.Time.ToLongTimeString();
             else
-                _time = _clock.Time.ToLongTimeString();
-            _dto.ClockText = _time;
+                _dto.ClockText = _clock.Time.ToLongTimeString();
 
             _dto.SecondHandAngle = -6f * _clock.Time.Second; //-360 * _clock.Time.Second/60
             _dto.MinuteHandAngle = -6f * _clock.Time.Minute; //-360 * _clock.Time.Minute/60
-            _dto.HourHandAngle = -30f * (_clock.Time.Hour % 12); 
+            _dto.HourHandAngle = -30f * (_clock.Time.Hour % 12); //-360f * (_clock.Time.Hour % 12)/12
 
             InvokeTimeUpdate?.Invoke(_dto);
         }

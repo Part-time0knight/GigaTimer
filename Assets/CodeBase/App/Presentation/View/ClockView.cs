@@ -15,12 +15,15 @@ namespace App.Presentation.View
         [field: SerializeField] private Image _secondHandImage;
         [field: SerializeField] private Image _minuteHandImage;
         [field: SerializeField] private Image _hourHandImage;
+        [field: SerializeField] private Button _alarmButton;
 
         [Inject]
         protected override void Construct(ClockViewModel viewModel)
         {
             base.Construct(viewModel);
             _viewModel.InvokeTimeUpdate += TimeUpdate;
+            _alarmButton.onClick.
+                AddListener(_viewModel.OpenAlarmWindow);
         }
 
         private void TimeUpdate(ClockDto dto)
@@ -37,6 +40,8 @@ namespace App.Presentation.View
         private void OnDestroy()
         {
             _viewModel.InvokeTimeUpdate -= TimeUpdate;
+            _alarmButton.onClick.
+                RemoveListener(_viewModel.OpenAlarmWindow);
         }
     }
 }

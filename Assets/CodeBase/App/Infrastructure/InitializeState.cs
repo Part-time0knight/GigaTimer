@@ -30,6 +30,7 @@ namespace App.Infrastructure
         {
             _windowResolve.CleanUp();
             _windowResolve.Set<ClockView>();
+            _windowResolve.Set<AlarmSetView>();
         }
     }
 }
