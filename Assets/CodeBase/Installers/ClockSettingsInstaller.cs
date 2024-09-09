@@ -10,8 +10,8 @@ namespace Installers
     public class ClockSettingsInstaller : ScriptableObjectInstaller<ClockSettingsInstaller>
     {
 
-        [SerializeField] private APISettings _apiSettings;
-        [SerializeField] private Clock.Settings _clockSettings;
+        [field: SerializeField] private APISettings _apiSettings;
+        [field: SerializeField] private Clock.Settings _clockSettings;
 
         public override void InstallBindings()
         {

@@ -1,8 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
-public class PauseController : MonoBehaviour
+namespace App.Model.Clock
 {
-    
+    public class PauseController : MonoBehaviour
+    {
+        public event Action<bool> InvokePause;
+
+        private void OnApplicationPause(bool pause)
+        {
+            InvokePause?.Invoke(pause);
+        }
+    }
 }

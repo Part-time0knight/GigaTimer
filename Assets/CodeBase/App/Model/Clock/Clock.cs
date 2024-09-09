@@ -17,24 +17,27 @@ namespace App.Model.Clock
         private readonly Timer _timer;
         private readonly Timer _timerUpdate;
         private readonly Settings _settings;
+        private readonly PauseController _pauseController;
 
         private DateTime _currentTime;
 
         private bool _needUpdate = false;
         private bool _ticUpdate = false;
 
-        public Clock(TimeAPIService timeAPIService, Settings settings) 
+        public Clock(TimeAPIService timeAPIService, PauseController pause, Settings settings) 
         {
             _timeService = timeAPIService;
             _timer = new(interval: 1000);
             _settings = settings;
             _timerUpdate = new(interval: _settings.TimeOnlineUpdate);
+            _pauseController = pause;
 
         }
 
         public async void Initialize()
         {
             _currentTime = DateTime.Now;
+            _pauseController.InvokePause += UpdateAfterPause;
             _timeService.GetTime().ContinueWith(
                 (time) => {
                     _currentTime = time;
@@ -42,6 +45,28 @@ namespace App.Model.Clock
                 });
             Debug.Log("Initialize: " + _currentTime);
             InitializeTimers();
+        }
+
+        public void Dispose()
+        {
+            _pauseController.InvokePause -= UpdateAfterPause;
+            _timer.Stop();
+            _timerUpdate.Stop();
+        }
+
+        public async void Tick()
+        {
+            if (_needUpdate)
+            {
+                _needUpdate = false;
+                _timeService.GetTime().ContinueWith((time) => _currentTime = time);
+            }
+            else if (_ticUpdate)
+            {
+                _ticUpdate = false;
+                _currentTime = _currentTime.AddSeconds(value: 1f);
+                InvokeTimeUpdate?.Invoke();
+            }
         }
 
         private void InitializeTimers()
@@ -62,25 +87,11 @@ namespace App.Model.Clock
             _needUpdate = true;
         }
 
-        public void Dispose()
+        private void UpdateAfterPause(bool pause)
         {
-            _timer.Stop();
-            _timerUpdate.Stop();
-        }
-
-        public async void Tick()
-        {
-            if (_needUpdate)
-            {
-                _needUpdate = false;
-                _currentTime = await _timeService.GetTime();
-            }
-            else if (_ticUpdate)
-            {
-                _ticUpdate = false;
-                _currentTime = _currentTime.AddSeconds(value: 1f);
-                InvokeTimeUpdate?.Invoke();
-            }
+            if (pause)
+                return;
+            _timeService.GetTime().ContinueWith((time) => _currentTime = time);
         }
 
         [Serializable]

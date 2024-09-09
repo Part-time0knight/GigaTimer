@@ -11,9 +11,9 @@ namespace App.Presentation.View
 {
     public class ClockView : AbstractPayloadView<ClockViewModel>
     {
-        [SerializeField] private TMP_Text _clockText;
-        [SerializeField] private Image _secondHandImage;
-        [SerializeField] private Image _minuteHandImage;
+        [field: SerializeField] private TMP_Text _clockText;
+        [field: SerializeField] private Image _secondHandImage;
+        [field: SerializeField] private Image _minuteHandImage;
 
         [Inject]
         protected override void Construct(ClockViewModel viewModel)
