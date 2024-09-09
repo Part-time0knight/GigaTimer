@@ -1,4 +1,5 @@
 using App.Model.APIService;
+using Cysharp.Threading.Tasks;
 using System;
 using System.Timers;
 using UnityEngine;
@@ -8,6 +9,10 @@ namespace App.Model.Clock
 {
     public class Clock : IInitializable, IDisposable, ITickable
     {
+        public DateTime Time => _currentTime;
+
+        public event Action InvokeTimeUpdate;
+
         private readonly TimeAPIService _timeService;
         private readonly Timer _timer;
         private readonly Timer _timerUpdate;
@@ -16,6 +21,7 @@ namespace App.Model.Clock
         private DateTime _currentTime;
 
         private bool _needUpdate = false;
+        private bool _ticUpdate = false;
 
         public Clock(TimeAPIService timeAPIService, Settings settings) 
         {
@@ -28,7 +34,12 @@ namespace App.Model.Clock
 
         public async void Initialize()
         {
-            _currentTime = await _timeService.GetTime();
+            _currentTime = DateTime.Now;
+            _timeService.GetTime().ContinueWith(
+                (time) => {
+                    _currentTime = time;
+                    Debug.Log("Initialize load time: " + _currentTime);
+                });
             Debug.Log("Initialize: " + _currentTime);
             InitializeTimers();
         }
@@ -36,13 +47,14 @@ namespace App.Model.Clock
         private void InitializeTimers()
         {
             _timer.Elapsed += Tic;
+            _timer.Start();
             _timerUpdate.Elapsed += UpdateTime;
             _timerUpdate.Start();
         }
 
         private void Tic(object source, ElapsedEventArgs e)
         {
-            _currentTime.AddSeconds(value: 1f);
+            _ticUpdate = true;
         }
 
         private void UpdateTime(object source, ElapsedEventArgs e)
@@ -62,7 +74,12 @@ namespace App.Model.Clock
             {
                 _needUpdate = false;
                 _currentTime = await _timeService.GetTime();
-                Debug.Log("Update: " + _currentTime);
+            }
+            else if (_ticUpdate)
+            {
+                _ticUpdate = false;
+                _currentTime = _currentTime.AddSeconds(value: 1f);
+                InvokeTimeUpdate?.Invoke();
             }
         }
 
