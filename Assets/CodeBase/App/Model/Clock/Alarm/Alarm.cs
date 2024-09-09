@@ -9,48 +9,37 @@ namespace App.Model.Clock.Alarm
 
         private DateTime _currentTime;
         private DateTime _endTime;
-        
-        private Timer _timer;
 
-        public void SetCallback(Action callback)
+        public IAlarm SetCallback(Action callback)
         {
             _callbacks += callback;
+            return this;
         }
 
         public IAlarm Start(DateTime currentTime, DateTime endTime)
         {
             _currentTime = currentTime;
             _endTime = endTime;
-            _timer = new Timer(interval: 1000d);
-            _timer.Elapsed += SecondTic;
-            _timer.Start();
             return this;
         }
 
-        public void Stop()
+        public IAlarm Stop()
         {
-            _timer.Stop();
             _callbacks = null;
+            return this;
         }
 
-        public void Update(DateTime currentTime)
+        public IAlarm Update(DateTime currentTime)
         {
             _currentTime = currentTime;
             if (_currentTime >= _endTime)
                 OnFinish();
-        }
-
-        private void SecondTic(object source, ElapsedEventArgs e)
-        { 
-            _currentTime = _currentTime.AddSeconds(value: 1f);
-            if (_currentTime >= _endTime)
-                OnFinish();
+            return this;
         }
 
         private void OnFinish()
         {
             _callbacks?.Invoke();
-            Stop();
         }
 
     }

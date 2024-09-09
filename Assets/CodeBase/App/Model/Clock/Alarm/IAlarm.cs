@@ -6,10 +6,10 @@ namespace App.Model.Clock.Alarm
     {
         IAlarm Start(DateTime currentTime, DateTime endTime);
 
-        void SetCallback(Action callback);
+        IAlarm SetCallback(Action callback);
 
-        void Update(DateTime currentTime);
+        IAlarm Update(DateTime currentTime);
 
-        void Stop();
+        IAlarm Stop();
     }
 }

@@ -92,6 +92,7 @@ namespace App.Model.Clock
             if (pause)
                 return;
             _timeService.GetTime().ContinueWith((time) => _currentTime = time);
+            InvokeTimeUpdate?.Invoke();
         }
 
         [Serializable]

@@ -7,6 +7,8 @@ using App.Infrastructure;
 using App.Presentation.ViewModel;
 using System;
 using UnityEngine;
+using App.Model.Clock.Alarm;
+using App.Domain.Pools;
 
 namespace Installers
 {
@@ -17,6 +19,7 @@ namespace Installers
         public override void InstallBindings()
         {
             InstallFactories();
+            InstallPools();
             InstallServices();
             InstallViewModels();
         }
@@ -29,16 +32,24 @@ namespace Installers
             Container.BindInterfacesAndSelfTo<TimeAPIService>()
                 .AsSingle()
                 .NonLazy();
+
             Container
                 .BindInterfacesAndSelfTo<Clock>()
                 .AsSingle()
                 .NonLazy();
+
             Container
                 .BindInterfacesAndSelfTo<WindowFsm>()
                 .AsSingle()
                 .NonLazy();
+
             Container
                 .BindInterfacesAndSelfTo<GameFsm>()
+                .AsSingle()
+                .NonLazy();
+
+            Container
+                .BindInterfacesAndSelfTo<AlarmService>()
                 .AsSingle()
                 .NonLazy();
         }
@@ -55,6 +66,11 @@ namespace Installers
         {
             Container.BindInterfacesTo<APIFactory>().AsSingle();
             Container.BindInterfacesTo<StatesFactory>().AsSingle();
+        }
+
+        private void InstallPools()
+        {
+            Container.BindMemoryPool<Alarm, AlarmsPool>().WithInitialSize(size: 1);
         }
 
         [Serializable]

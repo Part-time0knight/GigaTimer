@@ -27,11 +27,11 @@ namespace App.Presentation.View
         {
             _clockText.text = dto.ClockText;
             _secondHandImage.transform.DOKill();
-            _secondHandImage.transform.DOLocalRotate(new(0f, 0f, dto.SecondHandAngle), duration: 0.6f);
+            _secondHandImage.transform.DOLocalRotate(new(0f, 0f, dto.SecondHandAngle), duration: 0.8f);
             _minuteHandImage.transform.DOKill();
-            _minuteHandImage.transform.DOLocalRotate(new(0f, 0f, dto.MinuteHandAngle), duration: 0.6f);
+            _minuteHandImage.transform.DOLocalRotate(new(0f, 0f, dto.MinuteHandAngle), duration: 0.8f);
             _hourHandImage.transform.DOKill();
-            _hourHandImage.transform.DOLocalRotate(new(0f, 0f, dto.HourHandAngle), duration: 0.6f);
+            _hourHandImage.transform.DOLocalRotate(new(0f, 0f, dto.HourHandAngle), duration: 0.8f);
         }
 
         private void OnDestroy()
