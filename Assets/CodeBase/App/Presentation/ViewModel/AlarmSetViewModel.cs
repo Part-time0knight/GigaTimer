@@ -6,6 +6,7 @@ using Core.MVVM.ViewModel;
 using Core.MVVM.Windows;
 using System;
 using UnityEngine;
+using Zenject;
 
 namespace App.Presentation.ViewModel
 {
@@ -81,16 +82,14 @@ namespace App.Presentation.ViewModel
             while(_setTime < _clock.Time)
                 _setTime = _setTime.AddDays(1f);
             _alarm.Start(_setTime);
-            _alarm.InvokeAlarm += OnAlarmFinish;
-
-
             InvokeClose();
             _windowFsm.OpenWindow(typeof(AlarmTicView), inHistory: true);
         }
 
         public void ReadInput(Hand hand, string timeText)
         {
-            if (timeText == null || timeText == "")
+            int result;
+            if (timeText == null || timeText == "" || !int.TryParse(timeText, out result))
                 return;
             switch(hand)
             {
@@ -156,12 +155,6 @@ namespace App.Presentation.ViewModel
             if (uiWindow != Window)
                 return;
             OpenTime();
-        }
-
-        private void OnAlarmFinish()
-        {
-            _alarm.InvokeAlarm -= OnAlarmFinish;
-            _windowFsm.OpenWindow(typeof(AlarmFinishView), inHistory: true);
         }
 
         private void TimeToText()
