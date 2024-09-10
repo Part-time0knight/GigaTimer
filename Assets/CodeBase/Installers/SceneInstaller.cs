@@ -34,7 +34,7 @@ namespace Installers
                 .NonLazy();
 
             Container
-                .BindInterfacesAndSelfTo<Clock>()
+                .BindInterfacesAndSelfTo<ClockService>()
                 .AsSingle()
                 .NonLazy();
 
@@ -63,6 +63,16 @@ namespace Installers
 
             Container
                 .BindInterfacesAndSelfTo<AlarmSetViewModel>()
+                .AsSingle()
+                .NonLazy();
+
+            Container
+                .BindInterfacesAndSelfTo<AlarmTicViewModel>()
+                .AsSingle()
+                .NonLazy();
+
+            Container
+                .BindInterfacesAndSelfTo<AlarmFinishViewModel>()
                 .AsSingle()
                 .NonLazy();
         }

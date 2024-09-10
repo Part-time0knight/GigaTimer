@@ -78,3 +78,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07d2f53f96ca34d4ca31830452efba64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  settings:
+    Pause: {fileID: 917175727299660763, guid: cc8e7e65f5e60d44398af77b14eb7f4b, type: 3}

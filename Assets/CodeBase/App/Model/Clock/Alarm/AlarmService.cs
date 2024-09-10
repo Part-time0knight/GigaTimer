@@ -9,21 +9,26 @@ namespace App.Model.Clock.Alarm
     {
         public event Action InvokeAlarm;
 
+        public DateTime FinishTime => _currentTime;
+        public bool Active => _active;
+
         private readonly AlarmsPool _pool;
-        private readonly Clock _clock;
-
+        private readonly ClockService _clock;
         private IAlarm _currentAlarm;
+        private DateTime _currentTime;
+        private bool _active = false;
 
-
-        public AlarmService(AlarmsPool pool, Clock clock)
+        public AlarmService(AlarmsPool pool, ClockService clock)
         {
             _pool = pool;
             _clock = clock;
+            _currentTime = DateTime.MinValue;
         }
 
         public void Start(DateTime finish)
         {
-
+            _currentTime = finish;
+            _active = true;
             _currentAlarm = 
                 _pool.Spawn()
                 .Start(_clock.Time, finish)
@@ -31,8 +36,15 @@ namespace App.Model.Clock.Alarm
             
         }
 
+        public void Stop()
+        {
+            _currentAlarm.Stop();
+            _active = false;
+        }
+
         private void OnAlarmFinish()
         {
+            _active = false;
             _pool.Despawn(_currentAlarm.Stop());
             InvokeAlarm?.Invoke();
         }

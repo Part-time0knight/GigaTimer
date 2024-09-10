@@ -1,4 +1,5 @@
 using App.Domain.Dto;
+using App.Presentation.Elements;
 using App.Presentation.ViewModel;
 using Core.MVVM.View;
 using DG.Tweening;
@@ -12,9 +13,7 @@ namespace App.Presentation.View
     public class ClockView : AbstractPayloadView<ClockViewModel>
     {
         [field: SerializeField] private TMP_Text _clockText;
-        [field: SerializeField] private Image _secondHandImage;
-        [field: SerializeField] private Image _minuteHandImage;
-        [field: SerializeField] private Image _hourHandImage;
+        [field: SerializeField] private Clock _clock;
         [field: SerializeField] private Button _alarmButton;
 
         [Inject]
@@ -29,12 +28,7 @@ namespace App.Presentation.View
         private void TimeUpdate(ClockDto dto)
         {
             _clockText.text = dto.ClockText;
-            _secondHandImage.transform.DOKill();
-            _secondHandImage.transform.DOLocalRotate(new(0f, 0f, dto.SecondHandAngle), duration: 0.8f);
-            _minuteHandImage.transform.DOKill();
-            _minuteHandImage.transform.DOLocalRotate(new(0f, 0f, dto.MinuteHandAngle), duration: 0.8f);
-            _hourHandImage.transform.DOKill();
-            _hourHandImage.transform.DOLocalRotate(new(0f, 0f, dto.HourHandAngle), duration: 0.8f);
+            _clock.Set(dto);
         }
 
         private void OnDestroy()

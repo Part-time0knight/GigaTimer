@@ -7,7 +7,7 @@ using Zenject;
 
 namespace App.Model.Clock
 {
-    public class Clock : IInitializable, IDisposable, ITickable
+    public class ClockService : IInitializable, IDisposable, ITickable
     {
         public DateTime Time => _currentTime;
 
@@ -24,7 +24,7 @@ namespace App.Model.Clock
         private bool _needUpdate = false;
         private bool _ticUpdate = false;
 
-        public Clock(TimeAPIService timeAPIService, PauseController pause, Settings settings) 
+        public ClockService(TimeAPIService timeAPIService, PauseController pause, Settings settings) 
         {
             _timeService = timeAPIService;
             _timer = new(interval: 1000d);

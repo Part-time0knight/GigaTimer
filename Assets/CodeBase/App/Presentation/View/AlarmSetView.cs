@@ -1,7 +1,6 @@
 using App.Domain.Dto;
 using App.Presentation.Elements;
 using App.Presentation.ViewModel;
-using Core.Data.Dto;
 using Core.MVVM.View;
 using TMPro;
 using UnityEngine;

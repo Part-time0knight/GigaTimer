@@ -11,7 +11,7 @@ namespace Installers
     {
 
         [field: SerializeField] private APISettings _apiSettings;
-        [field: SerializeField] private Clock.Settings _clockSettings;
+        [field: SerializeField] private ClockService.Settings _clockSettings;
 
         public override void InstallBindings()
         {

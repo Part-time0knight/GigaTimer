@@ -262,10 +262,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6477555355217482258, guid: 4ef104c7f43514d4487cb891deb7f7aa, type: 3}
-      propertyPath: settings.Pause
-      value: 
-      objectReference: {fileID: 917175727299660763, guid: cc8e7e65f5e60d44398af77b14eb7f4b, type: 3}
     - target: {fileID: 7069197658718183598, guid: 4ef104c7f43514d4487cb891deb7f7aa, type: 3}
       propertyPath: m_Name
       value: SceneContext
@@ -291,6 +287,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: UI windows
       objectReference: {fileID: 0}
+    - target: {fileID: 2435669777194880522, guid: 56b36e2470a2c8948b40263eb48fe97e, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1472047640}
+    - target: {fileID: 5251649669502337566, guid: 56b36e2470a2c8948b40263eb48fe97e, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1472047640}
     - target: {fileID: 7517882154245371358, guid: 56b36e2470a2c8948b40263eb48fe97e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -335,6 +339,10 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 1472047640}
+    - target: {fileID: 8873152429753168384, guid: 56b36e2470a2c8948b40263eb48fe97e, type: 3}
+      propertyPath: m_Name
+      value: AlarmFinishCanvas
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

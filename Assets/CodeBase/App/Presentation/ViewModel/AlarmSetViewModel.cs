@@ -15,7 +15,7 @@ namespace App.Presentation.ViewModel
         public event Action<AlarmDto> InvokeUpdateTime;
 
         private readonly AlarmService _alarm;
-        private readonly Clock _clock;
+        private readonly ClockService _clock;
         private readonly AlarmDto _alarmDto;
 
         private DateTime _setTime;
@@ -33,7 +33,7 @@ namespace App.Presentation.ViewModel
 
         protected override Type Window => typeof(AlarmSetView);
 
-        public AlarmSetViewModel(IWindowFsm windowFsm, AlarmService alarm, Clock clock) : base(windowFsm)
+        public AlarmSetViewModel(IWindowFsm windowFsm, AlarmService alarm, ClockService clock) : base(windowFsm)
         {
             _alarm = alarm;
             _clock = clock;
@@ -85,14 +85,25 @@ namespace App.Presentation.ViewModel
             while(_setTime < _clock.Time)
                 _setTime = _setTime.AddDays(1f);
             _alarm.Start(_setTime);
+            _alarm.InvokeAlarm += OnAlarmFinish;
+
 
             InvokeClose();
+            _windowFsm.OpenWindow(typeof(AlarmTicView), inHistory: true);
         }
 
         protected override void HandleOpenedWindow(Type uiWindow)
         {
             base.HandleOpenedWindow(uiWindow);
+            if (uiWindow != Window)
+                return;
             OpenTime();
+        }
+
+        private void OnAlarmFinish()
+        {
+            _alarm.InvokeAlarm -= OnAlarmFinish;
+            _windowFsm.OpenWindow(typeof(AlarmFinishView), inHistory: true);
         }
 
         private void TimeToText()

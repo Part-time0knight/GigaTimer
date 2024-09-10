@@ -1,28 +1,40 @@
-using App.Domain.Dto;
-using App.Model.Clock;
 using App.Model.Clock.Alarm;
+using App.Model.Clock;
 using App.Presentation.View;
 using Core.MVVM.ViewModel;
 using Core.MVVM.Windows;
 using System;
+using App.Domain.Dto;
+using Core.Data.Dto;
+using UnityEngine;
+
 
 namespace App.Presentation.ViewModel
 {
-    public class ClockViewModel : AbstractViewModel
+    public class AlarmTicViewModel : AbstractViewModel
     {
-        public event Action<ClockDto> InvokeTimeUpdate;
+        public event Action<string> InvokeAlarmTime;
+        public event Action<ClockDto> InvokeTime;
 
-        private readonly ClockService _clock;
+
         private readonly AlarmService _alarm;
+        private readonly ClockService _clock;
         private readonly ClockDto _dto;
 
-        protected override Type Window => typeof(ClockView);
+        protected override Type Window => typeof(AlarmTicView);
 
-        public ClockViewModel(IWindowFsm windowFsm, ClockService clock, AlarmService alarm) : base(windowFsm)
+        public AlarmTicViewModel(IWindowFsm windowFsm, AlarmService alarm, ClockService clock) : base(windowFsm)
         {
-            _clock = clock;
             _alarm = alarm;
+            _clock = clock;
             _dto = new();
+        }
+
+        public void AlarmStop()
+        {
+            _alarm.Stop();
+            InvokeClose();
+            _windowFsm.OpenWindow(typeof(AlarmSetView), inHistory: true);
         }
 
         public override void InvokeClose()
@@ -35,21 +47,26 @@ namespace App.Presentation.ViewModel
             _windowFsm.OpenWindow(Window, inHistory: true);
         }
 
-        public void OpenAlarmWindow()
-        {
-            if (_alarm.Active)
-                _windowFsm.OpenWindow(typeof(AlarmTicView), inHistory: true);
-            else
-                _windowFsm.OpenWindow(typeof(AlarmSetView), inHistory: true);
-        }
-
         protected override void HandleOpenedWindow(Type uiWindow)
         {
             base.HandleOpenedWindow(uiWindow);
+
             if (uiWindow != Window)
                 return;
+
+            if (!_alarm.Active)
+            {
+                InvokeClose();
+                return;
+            }
             _clock.InvokeTimeUpdate += Update;
+            string time;
+            if (_alarm.FinishTime.Hour < 10)
+                time = "0" + _alarm.FinishTime.ToLongTimeString();
+            else
+                time = _alarm.FinishTime.ToLongTimeString();
             Update();
+            InvokeAlarmTime?.Invoke(time);
         }
 
         protected override void HandleClosedWindow(Type uiWindow)
@@ -61,7 +78,7 @@ namespace App.Presentation.ViewModel
         private void Update()
         {
             ClockConverter.MakeConvert(_dto, _clock.Time);
-            InvokeTimeUpdate?.Invoke(_dto);
+            InvokeTime?.Invoke(_dto);
         }
     }
 }

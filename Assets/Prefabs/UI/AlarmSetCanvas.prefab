@@ -624,7 +624,7 @@ GameObject:
   - component: {fileID: 4002746235062531701}
   - component: {fileID: 19362587678108212}
   m_Layer: 0
-  m_Name: SetButton
+  m_Name: AcceptButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -875,7 +875,7 @@ MonoBehaviour:
   _minuteHand: {fileID: 6114279990391188613}
   _hourHand: {fileID: 8510869489985649216}
   _backButton: {fileID: 8002800067699758274}
-  _acceptButton: {fileID: 0}
+  _acceptButton: {fileID: 19362587678108212}
   _AMToggle: {fileID: 6184852862173221083}
   _PMToggle: {fileID: 788926790300601859}
 --- !u!1 &3969351165813350398

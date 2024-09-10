@@ -31,6 +31,8 @@ namespace App.Infrastructure
             _windowResolve.CleanUp();
             _windowResolve.Set<ClockView>();
             _windowResolve.Set<AlarmSetView>();
+            _windowResolve.Set<AlarmTicView>();
+            _windowResolve.Set<AlarmFinishView>();
         }
     }
 }
