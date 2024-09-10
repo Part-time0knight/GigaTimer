@@ -27,10 +27,6 @@ namespace App.Presentation.ViewModel
         private int _minute;
         private int _second;
 
-        private string _hourString;
-        private string _minuteString;
-        private string _secondString;
-
         protected override Type Window => typeof(AlarmSetView);
 
         public AlarmSetViewModel(IWindowFsm windowFsm, AlarmService alarm, ClockService clock) : base(windowFsm)
@@ -92,6 +88,68 @@ namespace App.Presentation.ViewModel
             _windowFsm.OpenWindow(typeof(AlarmTicView), inHistory: true);
         }
 
+        public void ReadInput(Hand hand, string timeText)
+        {
+            if (timeText == null || timeText == "")
+                return;
+            switch(hand)
+            {
+                case Hand.Second:
+                    _second = Convert.ToInt32(timeText);
+                    if (_second > 60)
+                        _second = 60;
+                    else if (_second < 0)
+                        _second = 0;
+
+                    if (_second < 10)
+                        _alarmDto.SecondText = $"0{_second}";
+                    else
+                        _alarmDto.SecondText = _second.ToString();
+                    _alarmDto.Hands[Hand.Second] = -6f * _second;
+                    break;
+
+                case Hand.Minute:
+                    _minute = Convert.ToInt32(timeText);
+                    if (_minute > 60)
+                        _minute = 60;
+                    else if (_minute < 0)
+                        _minute = 0;
+
+                    if (_minute < 10)
+                        _alarmDto.MinuteText = $"0{_minute}";
+                    else
+                        _alarmDto.MinuteText = _minute.ToString();
+
+                    _alarmDto.Hands[Hand.Minute] = -6f * _minute;
+                        break;
+
+                case Hand.Hour:
+                    _hour = Convert.ToInt32(timeText);
+                    if (_alarmDto.Format == Format.AM
+                        && _hour >= 12)
+                        _hour = 11;
+                    else if (_alarmDto.Format == Format.PM)
+                    {
+                        if (_hour >= 24)
+                            _hour = 23;
+                        else if (_hour < 12)
+                            _hour += 12;
+                    }
+                    
+                    if (_hour < 0)
+                        _hour = 0;
+
+                    if (_hour < 10)
+                        _alarmDto.HourText = $"0{_hour}";
+                    else
+                        _alarmDto.HourText = _hour.ToString();
+
+                    _alarmDto.Hands[Hand.Hour] = -30f * (_hour % 12);
+                    break;
+            }
+            InvokeUpdateTime?.Invoke(_alarmDto);
+        }
+
         protected override void HandleOpenedWindow(Type uiWindow)
         {
             base.HandleOpenedWindow(uiWindow);
@@ -116,21 +174,19 @@ namespace App.Presentation.ViewModel
                 _hour += 12; 
 
             if (_hour < 10)
-                _hourString = $"0{_hour}";
+                _alarmDto.HourText = $"0{_hour}";
             else
-                _hourString = _hour.ToString();
+                _alarmDto.HourText = _hour.ToString();
 
             if (_minute < 10)
-                _minuteString = $"0{_minute}";
+                _alarmDto.MinuteText = $"0{_minute}";
             else
-                _minuteString = _minute.ToString();
+                _alarmDto.MinuteText = _minute.ToString();
 
             if (_second < 10)
-                _secondString = $"0{_second}";
+                _alarmDto.SecondText = $"0{_second}";
             else
-                _secondString = _second.ToString();
-
-            _alarmDto.TimerText = $"{_hourString}:{_minuteString}:{_secondString}";
+                _alarmDto.SecondText = _second.ToString();
         }
 
         private void OpenTime()
@@ -138,9 +194,19 @@ namespace App.Presentation.ViewModel
             _setTime = _clock.Time;
 
             if (_clock.Time.Hour < 10)
-                _alarmDto.TimerText = "0" + _clock.Time.ToLongTimeString();
+                _alarmDto.HourText = $"0{_clock.Time.Hour}";
             else
-                _alarmDto.TimerText = _clock.Time.ToLongTimeString();
+                _alarmDto.HourText = _clock.Time.Hour.ToString();
+
+            if (_clock.Time.Minute < 10)
+                _alarmDto.MinuteText = $"0{_clock.Time.Minute}";
+            else
+                _alarmDto.MinuteText = _clock.Time.Minute.ToString();
+
+            if (_clock.Time.Second < 10)
+                _alarmDto.SecondText = $"0{_clock.Time.Second}";
+            else
+                _alarmDto.SecondText = _clock.Time.Second.ToString();
 
             if (_clock.Time.Hour < 12)
                 _alarmDto.Format = Format.AM;

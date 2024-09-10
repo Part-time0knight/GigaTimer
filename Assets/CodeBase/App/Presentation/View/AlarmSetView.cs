@@ -11,7 +11,8 @@ namespace App.Presentation.View
 {
     public class AlarmSetView : AbstractPayloadView<AlarmSetViewModel>
     {
-        [field: SerializeField] private TMP_Text _clockText;
+        [field: SerializeField] private InputTime _clockInput;
+
         [field: SerializeField] private Hand _secondHand;
         [field: SerializeField] private Hand _minuteHand;
         [field: SerializeField] private Hand _hourHand;
@@ -36,6 +37,13 @@ namespace App.Presentation.View
                 (value) => OnFormatChange(AlarmSetViewModel.Format.AM, value));
             _PMToggle.onValueChanged.AddListener(
                 (value) => OnFormatChange(AlarmSetViewModel.Format.PM, value));
+
+            _clockInput.InvokeInputSeconds += 
+                (value) => _viewModel.ReadInput(AlarmSetViewModel.Hand.Second, value);
+            _clockInput.InvokeInputMinutes +=
+                (value) => _viewModel.ReadInput(AlarmSetViewModel.Hand.Minute, value);
+            _clockInput.InvokeInputHours +=
+                (value) => _viewModel.ReadInput(AlarmSetViewModel.Hand.Hour, value);
         }
 
         private void OnFormatChange(AlarmSetViewModel.Format format, bool active)
@@ -57,7 +65,7 @@ namespace App.Presentation.View
 
         private void SetDto(AlarmDto dto)
         {
-            _clockText.text = dto.TimerText;
+            _clockInput.SetText(dto);
             _secondHand.SetAngle(dto.Hands[AlarmSetViewModel.Hand.Second]);
             _minuteHand.SetAngle(dto.Hands[AlarmSetViewModel.Hand.Minute]);
             _hourHand.SetAngle(dto.Hands[AlarmSetViewModel.Hand.Hour]);
@@ -85,6 +93,13 @@ namespace App.Presentation.View
             _acceptButton.onClick.RemoveListener(_viewModel.AcceptAlarm);
             _AMToggle.onValueChanged.RemoveAllListeners();
             _PMToggle.onValueChanged.RemoveAllListeners();
+
+            _clockInput.InvokeInputSeconds -=
+                (value) => _viewModel.ReadInput(AlarmSetViewModel.Hand.Second, value);
+            _clockInput.InvokeInputMinutes -=
+                (value) => _viewModel.ReadInput(AlarmSetViewModel.Hand.Minute, value);
+            _clockInput.InvokeInputHours -=
+                (value) => _viewModel.ReadInput(AlarmSetViewModel.Hand.Hour, value);
         }
     }
 }

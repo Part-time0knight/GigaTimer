@@ -10,7 +10,11 @@ namespace App.Domain.Dto
 
         public readonly Dictionary<AlarmSetViewModel.Hand, float> Hands;
 
-        public string TimerText;
+        public string HourText;
+
+        public string MinuteText;
+
+        public string SecondText;
 
         public AlarmDto() 
         {
